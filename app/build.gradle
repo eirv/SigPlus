@@ -1,0 +1,53 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'test.sigplus'
+    compileSdk 32
+    ndkVersion "23.2.8568313"
+
+    defaultConfig {
+        applicationId "test.sigplus"
+        minSdk 24
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled false
+
+        externalNativeBuild {
+            cmake {
+                arguments += "-DCMAKE_BUILD_TYPE=Release"
+                arguments += "-DANDROID_STL=none"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+
+    buildFeatures {
+        prefab true
+    }
+}
+
+dependencies {
+    compileOnly 'dev.rikka.ndk.thirdparty:cxx:1.1.0'
+}
